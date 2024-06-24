@@ -7,7 +7,7 @@
 </head>
 <body class="bg-gray-100 text-gray-900">
     <div class="flex flex-col items-center justify-center min-h-screen py-6">
-        <h1 class="text-4xl font-bold mb-6">Codigo Analizador</h1>
+        <h1 class="text-4xl font-bold mb-6">Código Analizador</h1>
         <form method="post" class="w-full max-w-3xl bg-white p-6 rounded-lg shadow-md">
             <textarea name="codigo" rows="10" cols="50" class="p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-purple-500 focus:border-purple-500 placeholder-gray-400 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-purple-500 dark:focus:border-purple-500" placeholder="Introduce tu código aquí...">{{ codigo }}</textarea><br>
             <div class="flex justify-center mt-4">
@@ -28,7 +28,6 @@
                             <th class="border px-4 py-2">Identificador</th>
                             <th class="border px-4 py-2">Símbolo</th>
                             <th class="border px-4 py-2">Cadena</th>
-                            <th class="border px-4 py-2">Entero</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -40,7 +39,6 @@
                             <td class="border px-4 py-2">{{ 'Sí' if token.type == 'identifier' else 'No' }}</td>
                             <td class="border px-4 py-2">{{ 'Sí' if token.type == 'symbol' else 'No' }}</td>
                             <td class="border px-4 py-2">{{ 'Sí' if token.type == 'string' else 'No' }}</td>
-                            <td class="border px-4 py-2">{{ 'Sí' if token.type == 'integer' else 'No' }}</td>
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -51,6 +49,18 @@
                 <p class="mt-2 text-lg {% if 'Error' in sintactico_result %}text-red-700{% else %}text-gray-900{% endif %}">
                     {{ sintactico_result }}
                 </p>
+            </div>
+            <div class="mt-6">
+                <h2 class="text-2xl font-bold">Análisis Semántico</h2>
+                <ul class="mt-2 text-lg">
+                    {% if semantico_result %}
+                        {% for error in semantico_result %}
+                        <li class="text-red-700">{{ error }}</li>
+                        {% endfor %}
+                    {% else %}
+                        <li class="text-gray-900">No se encontraron errores semánticos.</li>
+                    {% endif %}
+                </ul>
             </div>
             <div class="mt-6 grid grid-cols-2 gap-4">
                 <div class="bg-gray-100 p-4 rounded-lg shadow-md">
@@ -66,15 +76,12 @@
                     <p class="mt-1 text-xl">{{ total_identifiers }}</p>
                 </div>
                 <div class="bg-gray-100 p-4 rounded-lg shadow-md">
-                    <h3 class="text-lg font-semibold">Símbolos</</p>
+                    <h3 class="text-lg font-semibold">Símbolos</h3>
+                    <p class="mt-1 text-xl">{{ total_symbols }}</p>
                 </div>
                 <div class="bg-gray-100 p-4 rounded-lg shadow-md">
                     <h3 class="text-lg font-semibold">Cadenas</h3>
                     <p class="mt-1 text-xl">{{ total_strings }}</p>
-                </div>
-                <div class="bg-gray-100 p-4 rounded-lg shadow-md">
-                    <h3 class="text-lg font-semibold">Enteros</h3>
-                    <p class="mt-1 text-xl">{{ total_integers }}</p>
                 </div>
             </div>
         </div>
